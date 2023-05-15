@@ -1,7 +1,7 @@
 import sys
 import os
-import magic
 import shutil
+import magic
 from project_class import file_sys
 
 
@@ -15,13 +15,13 @@ def get_loc():
     try:
         # get the folder locations through command line argument
         file_loc = sys.argv[1]
-    except:
+    except IndexError:
         # if not provided the program goes to the default locations [home/{user}/Downloads]
         file_loc = '/home/adith/Downloads'
     file_sys.folder_path(file_loc)
     p = file_sys.path
 
-    if p.exists() == False:
+    if p.exists() is False:
         sys.exit("File not found")
 
 
@@ -51,20 +51,20 @@ def stem():
 
     for x in p.iterdir():
         if not x.is_dir():
-            type = magic.from_file(x, mime=True).split("/")[0]
-            if type in ["audio"]:
+            types = magic.from_file(x, mime=True).split("/")[0]
+            if types in ["audio"]:
                 shutil.move(x, p/"audio")
                 continue
-            if type in ["application"]:
+            if types in ["application"]:
                 shutil.move(x, p/"application")
                 continue
-            if type in ["video"]:
+            if types in ["video"]:
                 shutil.move(x, p/"video")
                 continue
-            if type in ["image"]:
+            if types in ["image"]:
                 shutil.move(x, p/"image")
                 continue
-            if type in ["text"]:
+            if types in ["text"]:
                 shutil.move(x, p/"text")
                 continue
     print("Done, This Was CS50!")
